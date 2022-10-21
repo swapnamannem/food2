@@ -1,4 +1,4 @@
-Welcome to food website
+Welcome to the food website
 
 this is after fist commit
 
