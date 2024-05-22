@@ -64,6 +64,9 @@ jobs:
         echo "Chrome version: $CHROME_VERSION"
         echo "Chrome major version: $CHROME_MAJOR_VERSION"
         DRIVER_VERSION=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_MAJOR_VERSION")
+        if [ -z "$DRIVER_VERSION" ]; then
+          DRIVER_VERSION=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE")
+        fi
         echo "Matching ChromeDriver version: $DRIVER_VERSION"
         wget -N https://chromedriver.storage.googleapis.com/$DRIVER_VERSION/chromedriver_linux64.zip -P ~/
         unzip ~/chromedriver_linux64.zip -d ~/
