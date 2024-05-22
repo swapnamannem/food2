@@ -47,17 +47,14 @@ jobs:
     - name: Install dependencies
       run: mvn install
 
-    - name: Install Chrome
+    - name: Install specific version of Chrome
       run: |
-        sudo apt-get update
-        sudo apt-get install -y wget unzip
-        wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
-        sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
-        sudo apt-get update
-        sudo apt-get install -y google-chrome-stable=114.0.5735.198-1
+        wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+        sudo apt-get install -y ./google-chrome-stable_current_amd64.deb
+        sudo apt-get install -f
         google-chrome --version
 
-    - name: Install ChromeDriver
+    - name: Install matching ChromeDriver
       run: |
         CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+' | head -n 1)
         CHROME_MAJOR_VERSION=$(echo $CHROME_VERSION | cut -d '.' -f 1)
