@@ -66,7 +66,12 @@ jobs:
       run: |
         Xvfb :99 -ac &
         export DISPLAY=:99
+        echo "Starting Xvfb"
+        sleep 5
+        echo "Xvfb started"
+        echo "Running tests"
         mvn test
+        echo "Tests completed"
 
     - name: Archive test reports
       if: always()
