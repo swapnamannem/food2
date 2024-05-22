@@ -1,16 +1,15 @@
-name: POD Backend Pipeline for Feature Branches
+name: Selenium Tests
 
 on:
   push:
     branches: 
-        - selenium
+      - selenium
 
-#Special permissions required for OIDC authentication
 permissions:
   id-token: write
   contents: read
   pull-requests: write
-  
+
 jobs:
   selenium-tests:
     runs-on: ubuntu-latest
