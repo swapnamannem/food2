@@ -43,7 +43,7 @@ jobs:
 
     - name: Download and install Internet Explorer Driver
       run: |
-        $url = "https://github.com/SeleniumHQ/selenium/releases/download/selenium-4.1.0/IEDriverServer_Win32_4.1.0.zip"
+        $url = "https://github.com/SeleniumHQ/selenium/releases/download/selenium-3.150.0/IEDriverServer_Win32_3.150.0.zip"
         $output = "IEDriverServer.zip"
         Invoke-WebRequest -Uri $url -OutFile $output
         Expand-Archive -Path $output -DestinationPath $env:TEMP
