@@ -1,5 +1,6 @@
 package com.example;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -15,8 +16,8 @@ public class SeleniumTest {
 
     @Before
     public void setUp() {
-        // Set the path to the chromedriver executable
-        System.setProperty("webdriver.chrome.driver", "chromedriver");
+        // Use WebDriverManager to set up the ChromeDriver binary
+        WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
     }
 
@@ -36,4 +37,3 @@ public class SeleniumTest {
         }
     }
 }
-
