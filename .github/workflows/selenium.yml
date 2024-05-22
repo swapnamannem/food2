@@ -50,3 +50,10 @@ jobs:
 
     - name: Run Selenium tests
       run: mvn test
+
+    - name: Archive test reports
+      if: always()
+      uses: actions/upload-artifact@v2
+      with:
+        name: test-reports
+        path: target/surefire-reports/
