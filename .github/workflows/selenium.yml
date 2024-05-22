@@ -47,6 +47,12 @@ jobs:
     - name: Install dependencies
       run: mvn install
 
+    - name: Remove any existing Chrome
+      run: |
+        sudo apt-get purge --auto-remove google-chrome-stable -y
+        sudo rm -rf /etc/apt/sources.list.d/google-chrome.list
+        sudo apt-get update
+
     - name: Install specific version of Chrome
       run: |
         wget https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_114.0.5735.90-1_amd64.deb
