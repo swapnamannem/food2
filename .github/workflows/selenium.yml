@@ -49,8 +49,8 @@ jobs:
 
     - name: Remove any existing Chrome
       run: |
-        sudo apt-get purge --auto-remove google-chrome-stable -y
-        sudo rm -rf /etc/apt/sources.list.d/google-chrome.list
+        sudo apt-get purge --auto-remove google-chrome-stable -y || true
+        sudo rm -rf /etc/apt/sources.list.d/google-chrome.list || true
         sudo apt-get update
 
     - name: Install specific version of Chrome
