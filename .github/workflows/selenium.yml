@@ -62,13 +62,16 @@ jobs:
         echo "Geckodriver version:"
         geckodriver --version
 
-    - name: Run Selenium tests with Xvfb
+    - name: Start Xvfb
       run: |
         Xvfb :99 -ac &
         export DISPLAY=:99
         echo "Starting Xvfb"
         sleep 5
         echo "Xvfb started"
+
+    - name: Run Selenium tests
+      run: |
         echo "Running tests"
         mvn test
         echo "Tests completed"
