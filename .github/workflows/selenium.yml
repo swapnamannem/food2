@@ -41,15 +41,19 @@ jobs:
     - name: Install dependencies
       run: mvn install
 
-    - name: Install Firefox and Geckodriver dependencies
+    - name: Install Firefox and dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y firefox libgtk-3-0 libdbus-glib-1-2
+        sudo apt-get install -y firefox
+        sudo apt-get install -y libgtk-3-0 libdbus-glib-1-2 xvfb
+
+    - name: Install specific version of Geckodriver
+      run: |
         GECKODRIVER_VERSION=$(curl -s https://api.github.com/repos/mozilla/geckodriver/releases/latest | grep 'tag_name' | cut -d\" -f4)
         wget "https://github.com/mozilla/geckodriver/releases/download/$GECKODRIVER_VERSION/geckodriver-$GECKODRIVER_VERSION-linux64.tar.gz"
         tar -xzf "geckodriver-$GECKODRIVER_VERSION-linux64.tar.gz"
         sudo mv geckodriver /usr/local/bin/
-        geckodriver --version
+        sudo chmod +x /usr/local/bin/geckodriver
 
     - name: Verify Firefox and Geckodriver versions
       run: |
@@ -58,8 +62,11 @@ jobs:
         echo "Geckodriver version:"
         geckodriver --version
 
-    - name: Run Selenium tests
-      run: mvn test
+    - name: Run Selenium tests with Xvfb
+      run: |
+        Xvfb :99 -ac &
+        export DISPLAY=:99
+        mvn test
 
     - name: Archive test reports
       if: always()

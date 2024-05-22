@@ -23,6 +23,8 @@ public class SeleniumTest {
         WebDriverManager.firefoxdriver().setup();
         FirefoxOptions options = new FirefoxOptions();
         options.addArguments("--headless"); // Ensure Firefox runs in headless mode
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
         driver = new FirefoxDriver(options);
         wait = new WebDriverWait(driver, 10); // 10 seconds timeout
     }
