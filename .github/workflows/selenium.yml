@@ -43,8 +43,10 @@ jobs:
 
     - name: Download and install Internet Explorer Driver
       run: |
-        curl -L -o IEDriverServer.zip https://github.com/SeleniumHQ/selenium/releases/download/selenium-4.1.0/IEDriverServer_Win32_4.1.0.zip
-        Expand-Archive -Path IEDriverServer.zip -DestinationPath $env:TEMP
+        $url = "https://github.com/SeleniumHQ/selenium/releases/download/selenium-4.1.0/IEDriverServer_Win32_4.1.0.zip"
+        $output = "IEDriverServer.zip"
+        Invoke-WebRequest -Uri $url -OutFile $output
+        Expand-Archive -Path $output -DestinationPath $env:TEMP
         Move-Item -Path "$env:TEMP/IEDriverServer.exe" -Destination "C:/Windows/System32/IEDriverServer.exe"
 
     - name: Run Selenium tests
