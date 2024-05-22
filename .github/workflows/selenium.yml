@@ -41,26 +41,39 @@ jobs:
     - name: Install dependencies
       run: mvn install
 
-    - name: Install Firefox and dependencies
+    - name: Remove existing Chrome
       run: |
+        sudo apt-get purge google-chrome-stable -y || true
+        sudo rm /etc/apt/sources.list.d/google-chrome.list || true
         sudo apt-get update
-        sudo apt-get install -y firefox
-        sudo apt-get install -y libgtk-3-0 libdbus-glib-1-2
 
-    - name: Install specific version of Geckodriver
+    - name: Install specific version of Chrome
       run: |
-        GECKODRIVER_VERSION="v0.31.0"
-        wget "https://github.com/mozilla/geckodriver/releases/download/$GECKODRIVER_VERSION/geckodriver-$GECKODRIVER_VERSION-linux64.tar.gz"
-        tar -xzf "geckodriver-$GECKODRIVER_VERSION-linux64.tar.gz"
-        sudo mv geckodriver /usr/local/bin/
-        sudo chmod +x /usr/local/bin/geckodriver
+        wget https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_114.0.5735.90-1_amd64.deb
+        sudo dpkg -i google-chrome-stable_114.0.5735.90-1_amd64.deb
+        sudo apt-get install -f -y
+        google-chrome --version
 
-    - name: Verify Firefox and Geckodriver versions
+    - name: Verify Chrome version
       run: |
-        echo "Firefox version:"
-        firefox --version
-        echo "Geckodriver version:"
-        geckodriver --version
+        echo "Chrome version:"
+        google-chrome --version
+        echo "Chrome location:"
+        which google-chrome
+
+    - name: Install matching ChromeDriver
+      run: |
+        wget -N https://chromedriver.storage.googleapis.com/114.0.5735.90/chromedriver_linux64.zip -P ~/
+        unzip ~/chromedriver_linux64.zip -d ~/
+        sudo mv -f ~/chromedriver /usr/local/bin/chromedriver
+        sudo chmod +x /usr/local/bin/chromedriver
+
+    - name: Verify ChromeDriver version
+      run: |
+        echo "ChromeDriver version:"
+        chromedriver --version
+        echo "ChromeDriver location:"
+        which chromedriver
 
     - name: Run Selenium tests
       run: mvn test
