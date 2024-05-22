@@ -43,14 +43,17 @@ jobs:
 
     - name: Remove existing Chrome
       run: |
-        sudo apt-get purge google-chrome-stable -y
-        sudo rm -rf /etc/apt/sources.list.d/google-chrome.list || true
+        sudo apt-get purge google-chrome-stable -y || true
+        sudo apt-get remove google-chrome-stable -y || true
+        sudo apt-get autoremove -y
+        sudo rm /etc/apt/sources.list.d/google-chrome.list || true
         sudo apt-get update
 
     - name: Install specific version of Chrome
       run: |
-        wget https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_114.0.5735.198-1_amd64.deb
-        sudo apt-get install -y ./google-chrome-stable_114.0.5735.198-1_amd64.deb
+        wget https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_114.0.5735.90-1_amd64.deb
+        sudo dpkg -i google-chrome-stable_114.0.5735.90-1_amd64.deb
+        sudo apt-get -f install -y
         google-chrome --version
 
     - name: Verify Chrome version
