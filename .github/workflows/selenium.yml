@@ -57,7 +57,9 @@ jobs:
 
     - name: Verify Chrome version
       run: |
+        echo "Chrome version:"
         google-chrome --version
+        echo "Chrome location:"
         which google-chrome
 
     - name: Install matching ChromeDriver
@@ -66,11 +68,12 @@ jobs:
         unzip ~/chromedriver_linux64.zip -d ~/
         sudo mv -f ~/chromedriver /usr/local/bin/chromedriver
         sudo chmod +x /usr/local/bin/chromedriver
-        chromedriver --version
 
     - name: Verify ChromeDriver version
       run: |
+        echo "ChromeDriver version:"
         chromedriver --version
+        echo "ChromeDriver location:"
         which chromedriver
 
     - name: Run Selenium tests
