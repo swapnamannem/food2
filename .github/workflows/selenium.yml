@@ -45,7 +45,7 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install -y firefox
-        sudo apt-get install -y libgtk-3-0 libdbus-glib-1-2 xvfb
+        sudo apt-get install -y libgtk-3-0 libdbus-glib-1-2
 
     - name: Install specific version of Geckodriver
       run: |
@@ -62,19 +62,8 @@ jobs:
         echo "Geckodriver version:"
         geckodriver --version
 
-    - name: Start Xvfb
-      run: |
-        Xvfb :99 -ac &
-        export DISPLAY=:99
-        echo "Starting Xvfb"
-        sleep 5
-        echo "Xvfb started"
-
     - name: Run Selenium tests
-      run: |
-        echo "Running tests"
-        mvn test
-        echo "Tests completed"
+      run: mvn test
 
     - name: Archive test reports
       if: always()
