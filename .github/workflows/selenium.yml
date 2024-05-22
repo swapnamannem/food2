@@ -3,7 +3,7 @@ name: POD Backend Pipeline for Feature Branches
 on:
   push:
     branches: 
-        - master
+        - selenium
 
 #Special permissions required for OIDC authentication
 permissions:
