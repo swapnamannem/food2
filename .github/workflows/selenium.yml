@@ -16,7 +16,7 @@ jobs:
 
     services:
       selenium:
-        image: selenium/standalone-chrome:latest
+        image: selenium/standalone-chrome:114.0
         ports:
           - 4444:4444
 
@@ -49,20 +49,13 @@ jobs:
 
     - name: Install specific version of Chrome
       run: |
-        wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-        sudo apt-get install -y ./google-chrome-stable_current_amd64.deb
-        sudo apt-get install -f
+        wget https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_114.0.5735.90-1_amd64.deb
+        sudo apt-get install -y ./google-chrome-stable_114.0.5735.90-1_amd64.deb
         google-chrome --version
 
     - name: Install matching ChromeDriver
       run: |
-        CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+' | head -n 1)
-        CHROME_MAJOR_VERSION=$(echo $CHROME_VERSION | cut -d '.' -f 1)
-        echo "Chrome version: $CHROME_VERSION"
-        echo "Chrome major version: $CHROME_MAJOR_VERSION"
-        DRIVER_VERSION=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_MAJOR_VERSION")
-        echo "Matching ChromeDriver version: $DRIVER_VERSION"
-        wget -N https://chromedriver.storage.googleapis.com/$DRIVER_VERSION/chromedriver_linux64.zip -P ~/
+        wget -N https://chromedriver.storage.googleapis.com/114.0.5735.90/chromedriver_linux64.zip -P ~/
         unzip ~/chromedriver_linux64.zip -d ~/
         sudo mv -f ~/chromedriver /usr/local/bin/chromedriver
         sudo chmod +x /usr/local/bin/chromedriver
