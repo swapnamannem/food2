@@ -1,0 +1,74 @@
+name: Sample Test Pipeline
+
+on:
+  push:
+    branches: 
+        - feature-*
+  pull_request:
+    branches:
+      - feature-migration
+
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: write
+  
+env:
+  OWNERS: ${{ secrets.OWNERS }}
+
+jobs:
+  test-job:
+    name: 'Run Sample Tests'
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Request pull request review from owners
+      - name: Request review from owners
+        uses: actions/github-script@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const owners = process.env.OWNERS.split(',');
+            const { data: pullRequest } = await github.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.payload.pull_request.number
+            });
+
+            for (const owner of owners) {
+              await github.pulls.createReviewRequest({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: context.payload.pull_request.number,
+                reviewers: [owner]
+              });
+            }
+
+      - name: wait for approval
+        uses: actions/github-script@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { data: reviews } = await github.pulls.listReviews({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.payload.pull_request.number
+            });
+
+            const approved = reviews.some(review => review.state === 'APPROVED');
+            if (!approved) {
+              console.error('Approvals required before deployment.');
+              process.exit(1);
+            }
+
+      # Run sample tests
+      - name: Run sample tests
+        run: |
+          echo "Running sample tests..."
+          echo "Sample test 1 passed!"
+          echo "Sample test 2 passed!"
+          echo "All sample tests completed successfully!"
