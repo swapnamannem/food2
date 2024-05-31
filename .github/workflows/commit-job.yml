@@ -12,6 +12,13 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v2
 
+      - name: Verify config.yml exists
+        run: |
+          if [ ! -f config.yml ]; then
+            echo "config.yml not found!"
+            exit 1
+          fi
+
       - name: Install yq
         run: |
           sudo wget https://github.com/mikefarah/yq/releases/download/v4.9.8/yq_linux_amd64 -O /usr/bin/yq
