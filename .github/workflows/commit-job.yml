@@ -17,7 +17,6 @@ jobs:
           if [ ! -f .github/workflows/config.yml ]; then
             echo "config.yml not found!"
             exit 1
-          fi
 
       - name: Install yq
         run: |
@@ -29,7 +28,7 @@ jobs:
         run: |
           owners=$(yq eval '.owners | join(",")' .github/workflows/config.yml)
           echo "owners=$owners" >> $GITHUB_ENV
-          echo "::set-output name=owners::$owners"
+          echo "owners=$owners" >> $GITHUB_OUTPUT  # Use environment files to set the output variable
 
   commit-job:
     name: Commit Job
