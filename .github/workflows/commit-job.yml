@@ -10,7 +10,7 @@ jobs:
       owners: ${{ steps.get-owners.outputs.owners }}
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3  # Updated to use the latest version
 
       - name: Verify config.yml exists
         run: |
