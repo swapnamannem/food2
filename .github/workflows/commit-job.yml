@@ -28,7 +28,7 @@ jobs:
         id: get-owners
         run: |
           owners=$(yq eval '.owners | join(",")' .github/workflows/config.yml)
-          echo "::set-output name=owners::$owners"
+          echo "owners=$owners" >> $GITHUB_ENV  # Use environment files to set the output variable
 
   commit-job:
     name: Commit Job
