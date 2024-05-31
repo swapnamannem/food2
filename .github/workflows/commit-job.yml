@@ -14,7 +14,7 @@ jobs:
 
       - name: Verify config.yml exists
         run: |
-          if [ ! -f config.yml ]; then
+          if [ ! -f .github/workflows/config.yml ]; then
             echo "config.yml not found!"
             exit 1
           fi
@@ -27,7 +27,7 @@ jobs:
       - name: Read owners from config.yml
         id: get-owners
         run: |
-          owners=$(yq eval '.owners | join(",")' config.yml)
+          owners=$(yq eval '.owners | join(",")' .github/workflows/config.yml)
           echo "::set-output name=owners::$owners"
 
   commit-job:
